@@ -6,16 +6,13 @@
       {% for paper in site.data.publications %}
       <div class="paper">
         <div class="time-place">
-          <div class="paper__title">{{paper.title}}</div>
-          <div class="paper__author">{{paper.author}}</div>
-          <div class="paper__year">{{paper.year}}</div>
-        <div class="paper__journal">{{paper.journal}}</div>
+          {{paper.title}}, {{paper.firstauthor}}, {{paper.author}}, {{paper.year}}, {{paper.journal}}
       </div>
       {% endfor %}
     </div>
-     
+     <p>
 Here is my <a href="https://scholar.google.com/citations?user=NtLwKz0AAAAJ&hl=en&authuser=1">Google Scholar</a> page. 
-  </div>
+      </p></div>
 </section>
 
 
