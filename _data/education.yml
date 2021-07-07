@@ -1,7 +1,9 @@
-- School: Yale School of Public Health
-  Degree: Master of Public Health (MPH)
-  Graduation: 2015
+- company:  Yale School of Public Health
+  url: https://ysph.yale.edu/
+  time: 2015
+  position: Master of Public Health (MPH)
 
-- School: Imperial College London
-  Degree: Undergraduate
+- company: Imperial College London
+  url: http://imperial.ac.uk
   time: 2010
+  position: Undergraduate
