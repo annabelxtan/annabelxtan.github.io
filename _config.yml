@@ -1,13 +1,13 @@
 # Site settings
-name: Annabel X. fsfsd
-title: Annabel Tan, MPH
+name: Annabel X. Tan
+title: Annabel X. Tan, MPH
 description: PhD student @ Dept of Epidemiology and Population Health, Stanford School of Medicine. 
 url: https://annabelxtan.github.io/
 baseurl: ''
 email: annabelxtan@gmail.com
-cover: https://bchiang7.github.io/img/og.png
-logo: https://bchiang7.github.io/img/emojis/technologist.png
-resume: https://bchiang7.github.io/resume.pdf
+cover: https://annabelxtan.github.io/img/og.png
+logo: https://annabelxtan.github.io/img/emojis/technologist.png
+resume: https://annabelxtan.github.io/resume.pdf
 social:
   - title: email
     url: mailto:annabelxtan@gmail.com
