@@ -2,5 +2,7 @@ languages:
   - item: R
   - item: Stata
   - item: SAS
+  - item: Python
+  - item: Swift
 
 
