@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publications — Annabel X. Tan</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f4f0;
+      --surface: #fdfcf9;
+      --text: #111110;
+      --muted: #888580;
+      --border: #d8d6d0;
+      --accent: #1a5c52;
+      --mono: "SF Mono", "Fira Code", "Cascadia Code", ui-monospace, monospace;
+      --serif: "Georgia", "Times New Roman", serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      --max-w: 800px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      left: 2.5rem;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: var(--border);
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 1.1rem 4rem 1.1rem 4.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
+
+    /* MAIN */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 7rem 4rem 6rem 4.5rem;
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding-bottom: 3.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .page-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .page-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .page-desc {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-style: italic;
+      max-width: 460px;
+      line-height: 1.75;
+    }
+
+    .page-links {
+      display: flex;
+      gap: 1.25rem;
+      margin-top: 0.25rem;
+    }
+
+    .page-link {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .page-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* STATUS */
+    .pub-status {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      padding: 3rem 0;
+    }
+
+    .pub-status.error { color: #b45309; }
+
+    /* YEAR GROUPS */
+    #pub-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .year-group {
+      padding: 3.5rem 0 0;
+    }
+
+    .year-heading {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 2rem;
+      margin-bottom: 0;
+      align-items: baseline;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .year-label {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .year-count {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: var(--border);
+    }
+
+    /* PUB ROWS */
+    .pub-item {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 2rem;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .pub-item::before {
+      content: '';
+      position: absolute;
+      left: -4.5rem;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .pub-item:hover::before { opacity: 1; }
+
+    .pub-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding-top: 0.1rem;
+    }
+
+    .pub-journal {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .pub-title {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-weight: 400;
+      line-height: 1.5;
+      margin-bottom: 0.35rem;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+      transition: color 0.15s;
+    }
+
+    .pub-title:hover { color: var(--accent); }
+
+    .pub-authors {
+      font-family: var(--sans);
+      font-size: 0.77rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .pub-authors strong { color: var(--text); font-weight: 600; }
+
+    .pub-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .pub-link {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .pub-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* SOURCE NOTE */
+    .source-note {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.06em;
+      color: var(--border);
+    }
+
+    .source-note a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.15s;
+    }
+
+    .source-note a:hover { color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 2rem 4rem 2rem 4.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer span {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 620px) {
+      body::before { display: none; }
+      nav { padding: 1rem 1.5rem; }
+      main { padding: 6rem 1.5rem 4rem; }
+      .pub-item, .year-heading { grid-template-columns: 1fr; gap: 0.4rem; }
+      .pub-item::before { display: none; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">Annabel X. Tan</a>
+    <div class="nav-links">
+      <a href="index.html#projects">Projects</a>
+      <a href="publications.html" class="active">Publications</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <div class="page-header">
+      <div class="page-eyebrow">Research</div>
+      <h1>Publications</h1>
+      <p class="page-desc">Peer-reviewed research in epidemiology, real world evidence, and health data science.</p>
+      <div class="page-links">
+        <a class="page-link" href="https://scholar.google.com/citations?user=NtLwKz0AAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+        <a class="page-link" href="https://pub.orcid.org/v3.0/0000-0001-8368-0301" target="_blank" rel="noopener">ORCID ↗</a>
+        <a class="page-link" href="https://pubmed.ncbi.nlm.nih.gov/?term=Tan+AX%5BAuthor%5D" target="_blank" rel="noopener">PubMed ↗</a>
+      </div>
+    </div>
+
+    <div id="pub-container">
+      <p class="pub-status" id="pub-loading">Fetching publications…</p>
+    </div>
+
+    <p class="source-note">
+      Fetched live via <a href="https://orcid.org/0000-0001-8368-0301" target="_blank" rel="noopener">ORCID</a>
+      and enriched from <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" rel="noopener">PubMed</a>.
+      Author list and metadata may occasionally differ from the published version.
+    </p>
+
+  </main>
+
+  <footer>
+    <span>© 2026 Annabel X. Tan</span>
+    <span>Epidemiologist · Data Scientist</span>
+  </footer>
+
+  <script>
+    const CONFIG = {
+      ORCID_ID:           '0000-0001-8368-0301',
+      YOUR_NAME_VARIANTS: ['Tan AX', 'Tan, A', 'Annabel Tan', 'Annabel X. Tan', 'AX Tan'],
+    };
+
+    function highlightAuthor(authorStr) {
+      let s = authorStr;
+      for (const variant of CONFIG.YOUR_NAME_VARIANTS) {
+        const re = new RegExp(variant.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+        s = s.replace(re, `<strong>$&</strong>`);
+      }
+      return s;
+    }
+
+    function dataFromPubMed(pub) {
+      return {
+        title:     pub.title?.replace(/\.$/, '') || 'Untitled',
+        authors:   pub.authors?.map(a => a.name).join(', ') || '',
+        journal:   pub.fulljournalname || pub.source || '',
+        year:      pub.pubdate?.slice(0, 4) || '',
+        doi:       pub.elocationid?.replace('doi: ', '') || '',
+        pubmedUrl: `https://pubmed.ncbi.nlm.nih.gov/${pub.uid}/`,
+      };
+    }
+
+    function dataFromOrcid(group) {
+      const s      = group['work-summary']?.[0];
+      if (!s) return null;
+      const extIds = s['external-ids']?.['external-id'] || [];
+      const doi    = extIds.find(e => e['external-id-type'] === 'doi')?.['external-id-value'] || '';
+      return {
+        title:     s.title?.title?.value || 'Untitled',
+        authors:   '',
+        journal:   s['journal-title']?.value || '',
+        year:      s['publication-date']?.year?.value || '',
+        doi,
+        pubmedUrl: '',
+      };
+    }
+
+    function buildRow(d) {
+      const href  = d.pubmedUrl || (d.doi ? `https://doi.org/${d.doi}` : '');
+      const links = [];
+      if (d.pubmedUrl) links.push(`<a class="pub-link" href="${d.pubmedUrl}" target="_blank" rel="noopener">PubMed</a>`);
+      if (d.doi)       links.push(`<a class="pub-link" href="https://doi.org/${d.doi}" target="_blank" rel="noopener">DOI</a>`);
+
+      const titleEl = href
+        ? `<a class="pub-title" href="${href}" target="_blank" rel="noopener">${d.title}</a>`
+        : `<span class="pub-title" style="cursor:default">${d.title}</span>`;
+
+      return `
+        <div class="pub-item">
+          <div class="pub-meta">
+            <span class="pub-journal">${d.journal}</span>
+          </div>
+          <div class="pub-body">
+            ${titleEl}
+            ${d.authors ? `<p class="pub-authors">${highlightAuthor(d.authors)}</p>` : ''}
+            ${links.length ? `<div class="pub-links">${links.join('')}</div>` : ''}
+          </div>
+        </div>`;
+    }
+
+    async function loadPublications() {
+      const container = document.getElementById('pub-container');
+      const loading   = document.getElementById('pub-loading');
+
+      try {
+        // 1. Fetch ORCID works (exact — only her papers)
+        const orcidRes  = await fetch(
+          `https://pub.orcid.org/v3.0/${CONFIG.ORCID_ID}/works`,
+          { headers: { Accept: 'application/json' } }
+        );
+        const orcidData = await orcidRes.json();
+        const groups    = orcidData.group || [];
+
+        if (groups.length === 0) {
+          loading.textContent = 'No publications found on ORCID profile.';
+          loading.classList.add('error');
+          return;
+        }
+
+        // 2. Collect PMIDs for PubMed enrichment
+        const pmidToGroup = {};
+        groups.forEach((g, i) => {
+          const extIds = g['work-summary']?.[0]?.['external-ids']?.['external-id'] || [];
+          const pmid   = extIds.find(e => e['external-id-type'] === 'pmid')?.['external-id-value'];
+          if (pmid) pmidToGroup[pmid] = i;
+        });
+
+        const pmids = Object.keys(pmidToGroup);
+        let pubmedById = {};
+        if (pmids.length > 0) {
+          const res  = await fetch(
+            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=${pmids.join(',')}`
+          );
+          const data = await res.json();
+          pubmedById = data.result || {};
+        }
+
+        // 3. Build data for each paper
+        const papers = groups.map(g => {
+          const extIds = g['work-summary']?.[0]?.['external-ids']?.['external-id'] || [];
+          const pmid   = extIds.find(e => e['external-id-type'] === 'pmid')?.['external-id-value'];
+          if (pmid && pubmedById[pmid]) return dataFromPubMed(pubmedById[pmid]);
+          return dataFromOrcid(g);
+        }).filter(Boolean);
+
+        // 4. Group by year, sorted newest first
+        const byYear = {};
+        for (const p of papers) {
+          const y = p.year || 'Unknown';
+          if (!byYear[y]) byYear[y] = [];
+          byYear[y].push(p);
+        }
+
+        const years = Object.keys(byYear).sort((a, b) => b - a);
+
+        const html = years.map(year => {
+          const pubs  = byYear[year];
+          const rows  = pubs.map(buildRow).join('');
+          const count = pubs.length;
+          return `
+            <div class="year-group">
+              <div class="year-heading">
+                <span class="year-label">${year}</span>
+                <span class="year-count">${count} paper${count !== 1 ? 's' : ''}</span>
+              </div>
+              ${rows}
+            </div>`;
+        }).join('');
+
+        container.innerHTML = html;
+
+      } catch (err) {
+        loading.textContent = 'Could not load publications — check your connection.';
+        loading.classList.add('error');
+        console.error(err);
+      }
+    }
+
+    loadPublications();
+  </script>
+
+</body>
+</html>
