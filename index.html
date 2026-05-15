@@ -123,17 +123,17 @@
 
     h1 {
       font-family: var(--serif);
-      font-size: clamp(2.6rem, 6vw, 4rem);
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
       font-weight: 400;
       letter-spacing: -0.02em;
-      line-height: 1.05;
+      line-height: 1.1;
     }
 
     .bio {
       font-family: var(--serif);
       font-size: 1rem;
       color: var(--muted);
-      max-width: 400px;
+      max-width: 560px;
       line-height: 1.8;
       font-style: italic;
     }
@@ -573,7 +573,7 @@
     <section class="hero">
       <div class="hero-left">
         <div class="hero-eyebrow">Epidemiologist · Data Scientist</div>
-        <h1>Annabel<br />X. Tan</h1>
+        <h1>Annabel X. Tan</h1>
         <p class="bio">I'm a Stanford-trained epidemiologist and data scientist building AI-enabled real-world evidence in oncology — integrating EHRs and cancer registry data to answer questions clinical trials can't. Before oncology, I worked across cardiovascular epidemiology, global health, and the social determinants of health.</p>
         <div class="tags">
           <span class="tag">Real World Evidence</span>
@@ -602,8 +602,33 @@
         <h2 class="section-title">Recent Publications</h2>
         <a class="view-all-link" href="publications.html">View all →</a>
       </div>
-      <div id="pub-list" class="pub-list">
-        <p class="pub-status" id="pub-loading">Fetching…</p>
+      <div class="pub-list">
+        <div class="pub-item">
+          <div class="pub-meta">
+            <span class="pub-year">2026</span>
+            <span class="pub-journal">JCO Precision Oncology</span>
+          </div>
+          <div class="pub-body">
+            <a class="pub-title" href="https://doi.org/10.1200/PO-25-00884" target="_blank" rel="noopener">Evaluating Tumor Burden as a Predictive Biomarker for Epidermal Growth Factor Receptor Targeted Kinase Inhibitor Therapy in Advanced Non–Small Cell Lung Cancer</a>
+            <p class="pub-authors">R Terashima, J Fan, F Gunturkun, G Nieda, X Fan, EM Rodriguez, <strong>AX Tan</strong>, et al.</p>
+            <div class="pub-links">
+              <a class="pub-link" href="https://doi.org/10.1200/PO-25-00884" target="_blank" rel="noopener">DOI</a>
+            </div>
+          </div>
+        </div>
+        <div class="pub-item">
+          <div class="pub-meta">
+            <span class="pub-year">2026</span>
+            <span class="pub-journal">Innovation in Aging</span>
+          </div>
+          <div class="pub-body">
+            <a class="pub-title" href="https://doi.org/10.1093/geroni/igag027" target="_blank" rel="noopener">Seasonal variation in temperature and life-space mobility among older adults: a pilot study using mobile health technology</a>
+            <p class="pub-authors"><strong>AX Tan</strong>, S Dobrota Lai, V Ravi, JD Rhodes, SE Judd, MC Odden</p>
+            <div class="pub-links">
+              <a class="pub-link" href="https://doi.org/10.1093/geroni/igag027" target="_blank" rel="noopener">DOI</a>
+            </div>
+          </div>
+        </div>
       </div>
       <p class="pub-source-note">
         Via <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" rel="noopener">PubMed</a>
@@ -652,157 +677,7 @@
   </footer>
 
   <script>
-    // ─────────────────────────────────────────────────────────────────
-    // CONFIGURATION
-    // ─────────────────────────────────────────────────────────────────
-    const CONFIG = {
-      ORCID_ID:           '0000-0001-8368-0301',
-      YOUR_NAME_VARIANTS: ['Tan AX', 'Tan, A', 'Annabel Tan', 'Annabel X. Tan', 'AX Tan'],
-      GOOGLE_SCHOLAR_URL: 'https://scholar.google.com/citations?user=NtLwKz0AAAAJ&hl=en',
-      RECENT_YEARS:       [2025, 2026],   // only these years shown on the home page
-    };
-
-    if (CONFIG.GOOGLE_SCHOLAR_URL) {
-      document.getElementById('scholar-link').href = CONFIG.GOOGLE_SCHOLAR_URL;
-    }
-
-    function highlightAuthor(authorStr) {
-      let s = authorStr;
-      for (const variant of CONFIG.YOUR_NAME_VARIANTS) {
-        const re = new RegExp(variant.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-        s = s.replace(re, `<strong>$&</strong>`);
-      }
-      return s;
-    }
-
-    // Render from PubMed summary data (rich author list)
-    function renderFromPubMed(pub) {
-      const pmid      = pub.uid;
-      const title     = pub.title?.replace(/\.$/, '') || 'Untitled';
-      const authors   = pub.authors?.map(a => a.name).join(', ') || '';
-      const journal   = pub.fulljournalname || pub.source || '';
-      const year      = pub.pubdate?.slice(0, 4) || '';
-      const doi       = pub.elocationid?.replace('doi: ', '') || '';
-      const pubmedUrl = `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`;
-
-      return { title, authors, journal, year, doi, pubmedUrl, pmid };
-    }
-
-    // Render from ORCID data (fallback — no author list)
-    function renderFromOrcid(work) {
-      const summary   = work['work-summary']?.[0];
-      if (!summary) return null;
-      const title     = summary.title?.title?.value || 'Untitled';
-      const journal   = summary['journal-title']?.value || '';
-      const year      = summary['publication-date']?.year?.value || '';
-      const extIds    = summary['external-ids']?.['external-id'] || [];
-      const doiEntry  = extIds.find(e => e['external-id-type'] === 'doi');
-      const doi       = doiEntry?.['external-id-value'] || '';
-
-      return { title, authors: '', journal, year, doi, pubmedUrl: '', pmid: '' };
-    }
-
-    function buildRow(data) {
-      const { title, authors, journal, year, doi, pubmedUrl, pmid } = data;
-      const links = [];
-      if (pubmedUrl) links.push(`<a class="pub-link" href="${pubmedUrl}" target="_blank" rel="noopener">PubMed</a>`);
-      if (doi)       links.push(`<a class="pub-link" href="https://doi.org/${doi}" target="_blank" rel="noopener">DOI</a>`);
-
-      const titleEl = (pubmedUrl || doi)
-        ? `<a class="pub-title" href="${pubmedUrl || 'https://doi.org/' + doi}" target="_blank" rel="noopener">${title}</a>`
-        : `<span class="pub-title" style="cursor:default">${title}</span>`;
-
-      return `
-        <div class="pub-item">
-          <div class="pub-meta">
-            <span class="pub-year">${year}</span>
-            <span class="pub-journal">${journal}</span>
-          </div>
-          <div class="pub-body">
-            ${titleEl}
-            ${authors ? `<p class="pub-authors">${highlightAuthor(authors)}</p>` : ''}
-            ${links.length ? `<div class="pub-links">${links.join('')}</div>` : ''}
-          </div>
-        </div>`;
-    }
-
-    async function loadPublications() {
-      const container = document.getElementById('pub-list');
-      const loading   = document.getElementById('pub-loading');
-
-      try {
-        // Step 1: fetch works from ORCID public API (exact match — only her papers)
-        const orcidRes  = await fetch(
-          `https://pub.orcid.org/v3.0/${CONFIG.ORCID_ID}/works`,
-          { headers: { Accept: 'application/json' } }
-        );
-        const orcidData = await orcidRes.json();
-        const groups    = orcidData.group || [];
-
-        if (groups.length === 0) {
-          loading.textContent = 'No publications found on ORCID profile.';
-          loading.classList.add('error');
-          return;
-        }
-
-        // Step 2: pull PMIDs from ORCID so we can enrich via PubMed
-        const pmidMap = {};   // pmid → orcid group index
-        const doiMap  = {};   // for works without PMIDs
-        groups.forEach((g, i) => {
-          const extIds = g['work-summary']?.[0]?.['external-ids']?.['external-id'] || [];
-          const pmid   = extIds.find(e => e['external-id-type'] === 'pmid')?.['external-id-value'];
-          const doi    = extIds.find(e => e['external-id-type'] === 'doi')?.['external-id-value'];
-          if (pmid) pmidMap[pmid] = i;
-          else      doiMap[doi || i] = i;
-        });
-
-        const pmids = Object.keys(pmidMap);
-
-        // Step 3: fetch PubMed summaries for all PMIDs in one request
-        let pubmedByPmid = {};
-        if (pmids.length > 0) {
-          const summaryRes  = await fetch(
-            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi`
-            + `?db=pubmed&retmode=json&id=${pmids.join(',')}`
-          );
-          const summaryData = await summaryRes.json();
-          pubmedByPmid      = summaryData.result || {};
-        }
-
-        // Step 4: build ordered list — PubMed data where available, ORCID fallback otherwise
-        // Filter to RECENT_YEARS only for the home page
-        const rows = groups.flatMap(g => {
-          const extIds = g['work-summary']?.[0]?.['external-ids']?.['external-id'] || [];
-          const pmid   = extIds.find(e => e['external-id-type'] === 'pmid')?.['external-id-value'];
-
-          let data;
-          if (pmid && pubmedByPmid[pmid]) {
-            data = renderFromPubMed(pubmedByPmid[pmid]);
-          } else {
-            data = renderFromOrcid(g);
-          }
-
-          if (!data) return [];
-          const year = parseInt(data.year, 10);
-          if (!CONFIG.RECENT_YEARS.includes(year)) return [];
-          return [buildRow(data)];
-        });
-
-        if (rows.length === 0) {
-          container.innerHTML = `<p class="pub-status">No 2025–2026 publications yet — <a href="publications.html" style="color:var(--accent)">view full list</a>.</p>`;
-          return;
-        }
-
-        container.innerHTML = rows.join('');
-
-      } catch (err) {
-        loading.textContent = 'Could not load publications — check your connection.';
-        loading.classList.add('error');
-        console.error('Publications fetch error:', err);
-      }
-    }
-
-    loadPublications();
+    document.getElementById('scholar-link').href = 'https://scholar.google.com/citations?user=NtLwKz0AAAAJ&hl=en';
   </script>
 
 </body>
